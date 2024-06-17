@@ -1,0 +1,22 @@
+@hostname = http://localhost:8080/api/users
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1bGVtYW5haG1lZDI3MDRAZ21haWwuY29tIiwiaWQiOiI2NjBjZWYwNTgxMmVhYzg1ZDhhZWM3ZGMiLCJpYXQiOjE3MTIxMjM2NzAsImV4cCI6MTcxMjEyNzI3MH0.s9n415dIrlIUKbF4bPurIneBSuM6ez4f5HxMr4k8VKs
+@email = sulemanahmed2704@gmail.com
+
+### Home Route
+
+
+
+POST {{hostname}}  HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+### if buyer request to be a seller
+
+
+POST {{hostname}}/request-to-be-seller  HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "email": "{{email}}"
+}
