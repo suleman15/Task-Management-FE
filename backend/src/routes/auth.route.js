@@ -11,13 +11,6 @@ const router = express.Router();
 router
   .route("/register")
   .post(validateData(registerSchema), registerController);
-router.route("/login").post(
-  (req, res, next) => {
-    console.log(req.body);
-    next();
-  },
-  validateData(loginSchema),
-  loginController
-);
+router.route("/login").post(validateData(loginSchema), loginController);
 
 export { router as AuthRouter };

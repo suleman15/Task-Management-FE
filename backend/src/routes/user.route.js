@@ -17,20 +17,16 @@ router.route("/").post(containToken, (req, res) => {
   });
   response.send(res);
 });
-router.route("/request-to-be-seller").post(
-  containToken,
-  (req, res) => {
-    console.log(req?.user);
-    const response = new Response({
-      statusCode: 200,
-      message:
-        "An email containing a password reset link has been sent to your inbox.",
-    });
-    response.send(res);
-  }
-  // isBuyer,
-  // requestSellerController
-);
+
+router.route("/request-to-be-seller").post(containToken, (req, res) => {
+  console.log(req?.user);
+  const response = new Response({
+    statusCode: 200,
+    message:
+      "An email containing a password reset link has been sent to your inbox.",
+  });
+  response.send(res);
+});
 
 router.route("/forget-password").post(forgetPassword);
 router.route("/reset-password").post(resetPassword);
