@@ -8,6 +8,9 @@ export const Route = createRootRoute({
       <div className="p-2 justify-between flex gap-2 items-center">
         <div className="font-bold text-xl">Logo</div>
         <div className="flex gap-2">
+          <Link to="/" className="[&.active]:font-bold">
+            HOME
+          </Link>
           <Link to="/login" className="[&.active]:font-bold">
             Login
           </Link>
