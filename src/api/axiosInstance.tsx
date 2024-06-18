@@ -34,6 +34,17 @@ export const axiosInstanceMultipart: AxiosInstance = axios.create({
   },
 });
 
+axiosInstance.interceptors.request.use(
+  function (config) {
+    const user = JSON.parse(sessionStorage.getItem("user") ?? "{}");
+    config.headers.Authorization = `Bearer ${user?.state?.user?.token}`;
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
 export const axiosRequest = async ({
   url,
   token,

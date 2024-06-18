@@ -7,20 +7,20 @@ import { ApiError } from "../utils/Error.js";
 // REGISTER CONTROLLER
 
 export const registerController = asyncHandler(async (req, res) => {
-  const { username, email, password, role } = req.body;
-
-  const existingUserByEmail = await findUser({ email });
-  const existingUserByUsername = await findUser({ username });
+  const existingUserByEmail = await findUser({ email: req.body.email });
+  const existingUserByUsername = await findUser({
+    username: req.body.username,
+  });
 
   if (existingUserByEmail || existingUserByUsername) {
     throw new ApiError(404, "Email or username already exists");
   }
 
-  const newUser = await createUser({ username, email, password, role });
+  const newUser = await createUser(req.body);
 
   const response = new Response({
     statusCode: 200,
-    data: { ...newUser?._doc },
+    data: newUser?._doc,
     message: "User created successfully",
   });
   response.send(res);

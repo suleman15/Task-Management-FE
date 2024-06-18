@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { axiosRequest } from "./axiosInstance";
+import { axiosRequest } from "../axiosInstance";
 import { LoginSchema } from "@/schemas/auth.schema";
 import { toast } from "sonner";
 import { ResType } from "@/types";

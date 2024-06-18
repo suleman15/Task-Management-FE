@@ -2,20 +2,23 @@ import { ApiError } from "../utils/Error.js";
 import { ZodError } from "zod";
 
 /**
+ * @Joi_Validation
  * middleware to validate the user provided data by using Joi
  * @param {object} schema - validate data based on provided schema
  * @return {function} If validation error send response to user otherwise control pass the next controller
  */
 export const validateData = (schema) => {
   return (req, _, next) => {
-    const result = schema.safeParse(req.body);
-
-    if (!result.success) {
-      const validationErrorMessage = result.error || "Enter valid data!";
-      next(new ApiError(400, validationErrorMessage));
+    const validate = schema.validate(req.body);
+    // Check if validation Error
+    if (validate?.error) {
+      const validationErrorMessage =
+        validate?.error?.details[0]?.message || "Enter valid data !";
+      throw new ApiError(400, validationErrorMessage);
     } else {
-      req.body = result.data; // Attach validated data to the request body
-      next(); // Pass control to the next middleware/controller
+      // Attach data in request after validation successfully completed
+      req.body = validate.value;
+      return next(); // control pass the next controller
     }
   };
 };

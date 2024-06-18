@@ -3,7 +3,10 @@ import {
   loginController,
   registerController,
 } from "../controller/auth.controller.js";
-import { validateData } from "../middlewares/validation.middlewares.js";
+import {
+  validate,
+  validateData,
+} from "../middlewares/validation.middlewares.js";
 import { loginSchema, registerSchema } from "../schema/auth.schema.js";
 
 const router = express.Router();

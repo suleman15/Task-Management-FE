@@ -22,11 +22,11 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  role: {
-    type: String,
-    enum: [ADMIN, BUYER, SELLER],
-    default: "BUYER",
-  },
+  // role: {
+  //   type: String,
+  //   enum: [ADMIN, BUYER, SELLER],
+  //   default: "BUYER",
+  // },
 });
 
 // Schema transformation to exclude password before serialization

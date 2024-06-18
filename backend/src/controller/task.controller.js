@@ -42,6 +42,21 @@ export const getTasksController = asyncHandler(async (req, res) => {
   });
   response.send(res);
 });
+export const getTasksIdController = asyncHandler(async (req, res) => {
+  // Get all task IDs
+  const tasks = await Task.find({}, "_id");
+
+  // Extract the IDs from the tasks
+  const taskIds = tasks.map((task) => task._id).reverse();
+
+  // Send response
+  const response = new Response({
+    statusCode: 200,
+    data: taskIds,
+    message: "Task IDs retrieved successfully",
+  });
+  response.send(res);
+});
 
 export const getTaskByIdController = asyncHandler(async (req, res) => {
   const taskId = req.params.id;
@@ -85,23 +100,50 @@ export const updateTaskController = asyncHandler(async (req, res) => {
   });
   response.send(res);
 });
-
 export const deleteTaskController = asyncHandler(async (req, res) => {
-  const taskId = req.params.id;
+  const { ids } = req.body;
 
-  // Delete task
-  const deletedTask = await Task.findByIdAndDelete(taskId);
-
-  // Check if task exists
-  if (!deletedTask) {
-    throw new ApiError(404, "Task not found");
-  }
+  // Delete tasks
+  const deletedTasks = await Promise.all(
+    ids.map(async (taskId) => {
+      const deletedTask = await Task.findByIdAndDelete(taskId);
+      if (!deletedTask) {
+        throw new ApiError(404, `Task with ID ${taskId} not found`);
+      }
+      return deletedTask;
+    })
+  );
 
   // Send response
   const response = new Response({
     statusCode: 200,
-    data: deletedTask,
-    message: "Task deleted successfully",
+    data: deletedTasks,
+    message: "Tasks deleted successfully",
+  });
+  response.send(res);
+});
+
+export const updateTasksController2 = asyncHandler(async (req, res) => {
+  const { ids, updateData } = req.body;
+
+  // Update tasks
+  const updatedTasks = await Promise.all(
+    ids.map(async (taskId) => {
+      const updatedTask = await Task.findByIdAndUpdate(taskId, updateData, {
+        new: true,
+      });
+      if (!updatedTask) {
+        throw new ApiError(404, `Task with ID ${taskId} not found`);
+      }
+      return updatedTask;
+    })
+  );
+
+  // Send response
+  const response = new Response({
+    statusCode: 200,
+    data: updatedTasks,
+    message: "Tasks updated successfully",
   });
   response.send(res);
 });

@@ -9,6 +9,7 @@ import { DataTableViewOptions } from "./tasks-table-view-options";
 
 import { priorities, statuses } from "@/assets/data";
 import { DataTableFacetedFilter } from "./tasks-table-faceted-filter";
+import { TasksTableFloatingBar } from "./task-floating-bar";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -56,6 +57,7 @@ export function DataTableToolbar<TData>({
         )}
       </div>
       <DataTableViewOptions table={table} />
+      <TasksTableFloatingBar table={table} />
     </div>
   );
 }

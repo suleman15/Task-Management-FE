@@ -1,5 +1,3 @@
-"use client";
-
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Badge } from "@/components/ui/badge";
@@ -36,11 +34,13 @@ export const columns: ColumnDef<Task>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "id",
+    accessorKey: "_id",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Task" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
+    cell: ({ row }) => (
+      <div className="w-[140px] overflow-hidden">{row.getValue("_id")}</div>
+    ),
     enableSorting: false,
     enableHiding: false,
   },
@@ -51,7 +51,6 @@ export const columns: ColumnDef<Task>[] = [
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
-
       return (
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
@@ -71,11 +70,9 @@ export const columns: ColumnDef<Task>[] = [
       const status = statuses.find(
         (status) => status.value === row.getValue("status")
       );
-
       if (!status) {
         return null;
       }
-
       return (
         <div className="flex w-[100px] items-center">
           {status.icon && (
@@ -98,11 +95,9 @@ export const columns: ColumnDef<Task>[] = [
       const priority = priorities.find(
         (priority) => priority.value === row.getValue("priority")
       );
-
       if (!priority) {
         return null;
       }
-
       return (
         <div className="flex items-center">
           {priority.icon && (
@@ -114,6 +109,22 @@ export const columns: ColumnDef<Task>[] = [
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Created At" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {new Date(row.getValue("createdAt")).toLocaleDateString()} -{"  "}
+            {new Date(row.getValue("createdAt")).toLocaleTimeString()}
+          </span>
+        </div>
+      );
     },
   },
   {
